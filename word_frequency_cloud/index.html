@@ -1,0 +1,25 @@
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
+  <title>Word Frequency Cloud</title>
+  <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="root-title">Word Frequency Cloud</h1>
+    <div class="container">
+      <div id="section-field" class="section-field">
+        <textarea id="text-field" class="text-field" placeholder="Please enter a paragraph that you want analysis"></textarea>
+      </div>
+      <div class="section-result">
+        <div id="result" class="result"></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="./d3.layout.cloud.js"></script>
+  <script src="./index.js"></script>
+</body>
+</html>
