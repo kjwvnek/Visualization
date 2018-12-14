@@ -98,7 +98,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: url(/_assets/img/space.png) no-repeat 50% 50%/cover;
+  background: url(/assets/img/space.png) no-repeat 50% 50%/cover;
 }
 .header .h1 {
   position: relative;
@@ -125,7 +125,7 @@ body {
   width: 18px;
   height: 24px;
   margin-left: 8px;
-  background: url(/_assets/img/icon-arrow-right-white.svg) no-repeat 50% 50%/100% 100%;
+  background: url(/assets/img/icon-arrow-right-white.svg) no-repeat 50% 50%/100% 100%;
   transform: rotate(0);
   transition: 0.5s transform;
   content: '';
@@ -252,12 +252,12 @@ body {
 .content .section:nth-child(1) .h3 .badge .icon {
   width: 50px;
   height: 50px;
-  background: url(/_assets/img/icon-disk-white.svg) no-repeat 50% 50%/100% 100%;
+  background: url(/assets/img/icon-disk-white.svg) no-repeat 50% 50%/100% 100%;
 }
 .content .section:nth-child(2) .h3 .badge .icon {
   width: 50px;
   height: 50px;
-  background: url(/_assets/img/icon-head-white.svg) no-repeat 50% 50%/100% 100%;
+  background: url(/assets/img/icon-head-white.svg) no-repeat 50% 50%/100% 100%;
 }
 .content .section:nth-child(1) .h3 .badge {
   animation-delay: .4s;
