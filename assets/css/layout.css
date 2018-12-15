@@ -1,0 +1,42 @@
+@keyframes moveToRightAndFadeIn {
+  0% {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.wrap {
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+  height: 100vh;
+  padding: 50px;
+}
+.wrap .root-title {
+  position: relative;
+  margin-bottom: 120px;
+  text-align: center;
+}
+.wrap .root-title .text {
+  display: inline-block;
+  font-size: 40px;
+  vertical-align: top;
+  animation-name: moveToRightAndFadeIn;
+  animation-duration: .5s;
+  animation-delay: .4s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+.wrap .root-title:after {
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  width: 320px;
+  height: 3px;
+  margin-left: -160px;
+  background-color: #000;
+  content: '';
+}

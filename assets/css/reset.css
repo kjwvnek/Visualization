@@ -1,0 +1,31 @@
+body,
+h1, h2, h3, h4, h5, h6, p,
+dl, dt, dd, ul, ol, li,
+form, fieldset, input, button, textarea {
+  margin: 0;
+  padding: 0;
+}
+
+form, fieldset, input, button, textarea {
+  -webkit-appearance: none;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+}
+
+li {
+  list-style: none;
+}
+
+body {
+  font-family: 'Inconsolata', sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  text-align: center;
+  cursor: pointer;
+}

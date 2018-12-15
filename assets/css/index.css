@@ -57,27 +57,6 @@
     opacity: 1;
   }
 }
-/* Reset */
-body,
-h1, h2, h3, h4,
-ul, ol, li {
-  margin: 0;
-  padding: 0;
-}
-li {
-  list-style: none;
-}
-a {
-  text-decoration: none;
-  color: inherit;
-}
-body {
-  overflow: hidden;
-  width: 100vw;
-  height: 100vh;
-  font-family: 'Inconsolata', sans-serif;
-  line-height: 1;
-}
 /* Style */
 .wrap {
   transform: translate3d(0, 0, 0);
@@ -138,7 +117,8 @@ body {
   transform: rotate(90deg);
 }
 .container {
-  overflow: hidden auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   box-sizing: border-box;
   height: 100vh;
   padding: 50px;
