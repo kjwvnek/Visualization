@@ -6,7 +6,12 @@
     [1, 2, 3, 5, 4, 6, 8],
     [14, 7, 32, 34, 8, 9]
   ];
-  
+
+  const STEP_FOCUS = 'STEP_FOCUS';
+  const STEP_BLUR = 'STEP_BLUR';
+  const STEP_SWAP = 'STEP_SWAP';
+  const STEP_FIX = 'STEP_FIX';
+
   const inputArrayElement = document.getElementById('input-array');
   const btnStartElement = document.getElementById('btn-start');
   const btnExampleElement = document.getElementById('btn-example');
@@ -27,6 +32,8 @@
     
     visualizedArray = new VisualizedArray(stringToArray(inputArrayElement.value));
     visualizedArray.render(resultElement);
+    const animationIterator = bubbleSorting(visualizedArray._input);
+    animationIterator
   });
   
   btnExampleElement.addEventListener('click', function() {
@@ -36,7 +43,9 @@
     while (index === prevIndex) {
       index = Math.floor(Math.random() * EXAMPLE.length);
     }
-    
+
+    btnExampleElement.exampleIndex = index;
+
     inputArrayElement.value = JSON.stringify(EXAMPLE[index]);
     btnStartElement.disabled = false;
     btnStartElement.click();
@@ -45,8 +54,35 @@
   /* Visualized Array Class */
   class VisualizedArray {
     constructor(input) {
-      this.input = input;
+      this.barMaxWidth = 32;
+      this.barGapSize = 7;
+      this.defaultBarColor = '#bbb';
+      this.focusedBarColor = '#04c2c9';
+      this.fixedBarColor = '#fada5e';
+      this.colorDelay = 0.8;
+      this.swapDelay = 1.2;
+      this.wrapElementStyle = {
+        position: 'relative',
+        height: '100%',
+        textAlign: 'center'
+      };
+      this.barElementStyle = {
+        position: 'absolute',
+        bottom: '0',
+        borderRadius: '4px 4px 0 0',
+        backgroundColor: this.defaultBarColor,
+        transition: 'transform ' +  this.swapDelay + 's ease-in-out, background-color ' + this.colorDelay + 's'
+      };
+      this.valueElementStyle = {
+        position: 'absolute',
+        top: '5px',
+        left: '50%',
+        transform: 'translateX(-50%)'
+      };
+      this._input = input;
       this._element = null;
+      this._barElements = [];
+      this._barWidth = 0;
     }
     
     remove(targetElement) {
@@ -55,44 +91,79 @@
     
     render(targetElement) {
       this.createElement();
+      this.positionElement();
       targetElement.appendChild(this._element);
     }
     
     createElement() {
       const wrapElement = document.createElement('div');
-      wrapElement.classList.add('visualized-array');
+      setInlineStyle(wrapElement, this.wrapElementStyle);
       
-      const width = (Math.floor(resultElement.clientWidth / this.input.length) - 8) + 'px';
-      const maxMinValue = this.input.reduce((accumulator, value, index) => {
-        if (index === 0) {
-          return {
-            max: value,
-            min: value
-          };
-        } else {
-          return {
-            max: Math.max(accumulator.max, value),
-            min: Math.min(accumulator.min, value)
-          };
-        }
-      }, {});
-      const heightUnit = (maxMinValue.max - maxMinValue.min);
+      let width = (Math.floor(resultElement.clientWidth / this._input.length) - this.barGapSize - 2);
+      this._barWidth = width = width > this.barMaxWidth ? this.barMaxWidth : width;
+      let maxMinValue = this._input.reduce((accumulator, value, index) => (index === 0 ? {
+          max: value,
+          min: value
+        } : {
+          max: Math.max(accumulator.max, value),
+          min: Math.min(accumulator.min, value)
+      }), {});
+      let heightUnit = (maxMinValue.max - maxMinValue.min) / 70;
+      let fullWidth = width * this._input.length + this.barGapSize * (this._input.length - 1);
+      let startPositionLeft = Math.round((resultElement.clientWidth - fullWidth) / 2);
       
-      this.input.forEach(value => {
+      this._input.forEach((value) => {
         const barElement = document.createElement('div');
         const valueElement = document.createElement('span');
         
-        barElement.classList.add('array-bar');
-        barElement.style.width = width;
-        barElement.style.height = Math.floor(((value - maxMinValue.min) / heightUnit) * 70 + 25) + '%';
-        valueElement.classList.add('array-value');
+        setInlineStyle(barElement, _.assign({}, this.barElementStyle, {
+          width: width + 'px',
+          height: Math.floor(((value - maxMinValue.min) / heightUnit) + 25) + '%',
+          left: startPositionLeft + 'px'
+        }));
+        setInlineStyle(valueElement, this.valueElementStyle);
         valueElement.innerText = value;
         
         barElement.appendChild(valueElement);
         wrapElement.appendChild(barElement);
+
+        this._barElements.push(barElement);
       });
       
-      this._element = wrapElement
+      this._element = wrapElement;
+    }
+
+    positionElement() {
+      this._barElements.forEach((barElement, index) => {
+        let position = index * (this._barWidth + this.barGapSize);
+
+        barElement.style.transform = 'translateX(' + position + 'px)';
+      });
+    }
+
+    focus(indexArray) {
+      indexArray.forEach(index => {
+        this._barElements[index].style.backgroundColor = this.focusedBarColor;
+      })
+    }
+
+    blur(indexArray) {
+      indexArray.forEach(index => {
+        this._barElements[index].style.backgroundColor = this.defaultBarColor;
+      });
+    }
+
+    fix(index) {
+      this._barElements[index].style.backgroundColor = this.fixedBarColor;
+    }
+
+    swap(left, right) {
+      let leftElement = this._barElements[left];
+      let rightElement = this._barElements[right];
+
+      this._barElements.splice(left, 1, rightElement);
+      this._barElements.splice(right, 1, leftElement);
+      this.positionElement();
     }
   }
   
@@ -109,5 +180,74 @@
     
     let array = string.split(',');
     return array.filter(element => (element !== undefined && element !== '')).map(element => Number(element));
+  }
+
+  function setInlineStyle(element, styles) {
+    Object.keys(styles).forEach(styleName => {
+      element.style[styleName]  = styles[styleName];
+    });
+  }
+  
+  function bubbleSorting(array) {
+    const queue = [];
+    let n = 0;
+
+    while (n < array.length) {
+      for (let i = 0; i < array.length - n - 1; i++) {
+        queue.push({
+          step: STEP_FOCUS,
+          indexArray: [ i, i + 1 ]
+        });
+
+        let left = array[i];
+        let right = array[i + 1];
+        if (left > right) {
+          array[i] = right;
+          array[i + 1] = left;
+          queue.push({
+            step: STEP_SWAP,
+            indexArray: [ i, i + 1 ]
+          });
+        }
+
+        queue.push({
+          step: STEP_BLUR,
+          indexArray: [ i, i + 1 ]
+        });
+      }
+
+      queue.push({
+        step: STEP_FIX,
+        indexArray: [ array.length - n - 1 ]
+      });
+      n++;
+    }
+
+    return function* animationGenerator(callback) {
+      while (queue.length > 0) {
+        yield callback(queue.shift());
+      }
+
+      return;
+    }
+  }
+
+  function aniamte(step, indexArray) {
+    switch(step) {
+      case STEP_FOCUS:
+        visualizedArray.focus(indexArray);
+        return;
+      case STEP_BLUR:
+        visualizedArray.blur(indexArray);
+        return;
+      case STEP_SWAP:
+        visualizedArray.swap(indexArray[0], indexArray[1]);
+        return;
+      case STEP_FIX:
+        visualizedArray.fix(indexArray[0]);
+        return;
+      default:
+        console.error('invalid step');
+    }
   }
 }());
