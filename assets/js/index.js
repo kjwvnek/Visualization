@@ -4,7 +4,7 @@ const SECTIONS = [
     icon: 'data',
     list: [
       { name: 'word frequency cloud', url: './word_frequency_cloud/index.html' },
-      { name: 'travel risk map', url: './travel_risk_map/index.html' }
+      { name: 'travel risk map', url: './travel_risk_map/index.html', disabled: true }
     ]
   },
   {
@@ -12,7 +12,7 @@ const SECTIONS = [
     icon: 'algorithm',
     list: [
       { name: 'bubble sort', url: './bubble_sort/index.html' },
-      { name: 'insertion sort', url: './insert_sort/index.html' }
+      { name: 'insertion sort', url: './insert_sort/index.html', disabled: true }
     ]
   }
 ];
@@ -31,6 +31,13 @@ class AppView {
   
   renderSection(sections) {
     sections.forEach(section => {
+      section.list = section.list.map(item => {
+        return {
+          name: item.name,
+          url: item.disabled ? 'javascript:void(0)' : item.url,
+          className: item.disabled ? 'disabled': ''
+        };
+      });
       this.contentElement.innerHTML += this.sectionTemplate(section);
     });
   }
