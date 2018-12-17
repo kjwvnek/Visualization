@@ -58,6 +58,10 @@
   }
 }
 /* Style */
+body {
+  overflow: hidden;
+  height: 100vh;
+}
 .wrap {
   transform: translate3d(0, 0, 0);
   transition: transform .4s;
