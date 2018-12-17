@@ -11,6 +11,8 @@
   const STEP_BLUR = 'STEP_BLUR';
   const STEP_SWAP = 'STEP_SWAP';
   const STEP_FIX = 'STEP_FIX';
+  const SWAP_DELAY = 500;
+  const COLOR_DELAY = 400;
 
   const inputArrayElement = document.getElementById('input-array');
   const btnStartElement = document.getElementById('btn-start');
@@ -32,8 +34,9 @@
     
     visualizedArray = new VisualizedArray(stringToArray(inputArrayElement.value));
     visualizedArray.render(resultElement);
-    const animationIterator = bubbleSorting(visualizedArray._input);
-    animationIterator
+
+    let animationQueue = bubbleSorting(visualizedArray._input);
+    animateAsync(animationQueue);
   });
   
   btnExampleElement.addEventListener('click', function() {
@@ -59,8 +62,8 @@
       this.defaultBarColor = '#bbb';
       this.focusedBarColor = '#04c2c9';
       this.fixedBarColor = '#fada5e';
-      this.colorDelay = 0.8;
-      this.swapDelay = 1.2;
+      this.colorDelay = COLOR_DELAY / 1000;
+      this.swapDelay = SWAP_DELAY / 1000;
       this.wrapElementStyle = {
         position: 'relative',
         height: '100%',
@@ -71,7 +74,7 @@
         bottom: '0',
         borderRadius: '4px 4px 0 0',
         backgroundColor: this.defaultBarColor,
-        transition: 'transform ' +  this.swapDelay + 's ease-in-out, background-color ' + this.colorDelay + 's'
+        transition: 'transform ' +  this.swapDelay + 's ease-in-out, background-color ' + this.colorDelay + 's ease-in-out'
       };
       this.valueElementStyle = {
         position: 'absolute',
@@ -187,7 +190,13 @@
       element.style[styleName]  = styles[styleName];
     });
   }
-  
+
+  function sleep(callback, ms) {
+    return new Promise(resolve => {
+      setTimeout(() => { resolve(callback && callback()) }, ms);
+    });
+  }
+
   function bubbleSorting(array) {
     const queue = [];
     let n = 0;
@@ -196,7 +205,8 @@
       for (let i = 0; i < array.length - n - 1; i++) {
         queue.push({
           step: STEP_FOCUS,
-          indexArray: [ i, i + 1 ]
+          indexArray: [ i, i + 1 ],
+          delay: COLOR_DELAY
         });
 
         let left = array[i];
@@ -206,48 +216,55 @@
           array[i + 1] = left;
           queue.push({
             step: STEP_SWAP,
-            indexArray: [ i, i + 1 ]
+            indexArray: [ i, i + 1 ],
+            delay: SWAP_DELAY
           });
         }
 
         queue.push({
           step: STEP_BLUR,
-          indexArray: [ i, i + 1 ]
+          indexArray: [ i, i + 1 ],
+          delay: COLOR_DELAY
         });
       }
 
       queue.push({
         step: STEP_FIX,
-        indexArray: [ array.length - n - 1 ]
+        indexArray: [ array.length - n - 1 ],
+        delay: COLOR_DELAY
       });
       n++;
     }
 
-    return function* animationGenerator(callback) {
-      while (queue.length > 0) {
-        yield callback(queue.shift());
-      }
+    return queue;
+  }
 
-      return;
+  async function animateAsync(queue) {
+    while (queue.length > 0) {
+      let spec = queue.shift();
+
+      animationHandler(spec);
+      await sleep(null, spec.delay + 10);
     }
   }
 
-  function aniamte(step, indexArray) {
+  async function animationHandler({step, indexArray}) {
     switch(step) {
       case STEP_FOCUS:
         visualizedArray.focus(indexArray);
-        return;
+        break;
       case STEP_BLUR:
         visualizedArray.blur(indexArray);
-        return;
+        break;
       case STEP_SWAP:
         visualizedArray.swap(indexArray[0], indexArray[1]);
-        return;
+        break;
       case STEP_FIX:
         visualizedArray.fix(indexArray[0]);
-        return;
+        break;
       default:
         console.error('invalid step');
     }
+    return;
   }
 }());
