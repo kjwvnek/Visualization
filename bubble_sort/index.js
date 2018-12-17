@@ -18,6 +18,7 @@
   const btnStartElement = document.getElementById('btn-start');
   const btnExampleElement = document.getElementById('btn-example');
   const resultElement = document.getElementById('result');
+  const allTimeouts = [];
   let visualizedArray = null;
   
   /* Bind Events */
@@ -30,6 +31,7 @@
   btnStartElement.addEventListener('click', function() {
     if (visualizedArray) {
       visualizedArray.remove(resultElement);
+      clearAllTimeout();
     }
     
     visualizedArray = new VisualizedArray(stringToArray(inputArrayElement.value));
@@ -193,8 +195,15 @@
 
   function sleep(callback, ms) {
     return new Promise(resolve => {
-      setTimeout(() => { resolve(callback && callback()) }, ms);
+      let timeout = setTimeout(() => { resolve(callback && callback()) }, ms);
+      allTimeouts.push(timeout);
     });
+  }
+
+  function clearAllTimeout() {
+    while (allTimeouts.length > 0) {
+      window.clearInterval(allTimeouts.shift());
+    }
   }
 
   function bubbleSorting(array) {
@@ -243,28 +252,24 @@
     while (queue.length > 0) {
       let spec = queue.shift();
 
-      animationHandler(spec);
+      switch(spec.step) {
+        case STEP_FOCUS:
+          visualizedArray.focus(spec.indexArray);
+          break;
+        case STEP_BLUR:
+          visualizedArray.blur(spec.indexArray);
+          break;
+        case STEP_SWAP:
+          visualizedArray.swap(spec.indexArray[0], spec.indexArray[1]);
+          break;
+        case STEP_FIX:
+          visualizedArray.fix(spec.indexArray[0]);
+          break;
+        default:
+          console.error('invalid step');
+      }
+
       await sleep(null, spec.delay + 10);
     }
-  }
-
-  async function animationHandler({step, indexArray}) {
-    switch(step) {
-      case STEP_FOCUS:
-        visualizedArray.focus(indexArray);
-        break;
-      case STEP_BLUR:
-        visualizedArray.blur(indexArray);
-        break;
-      case STEP_SWAP:
-        visualizedArray.swap(indexArray[0], indexArray[1]);
-        break;
-      case STEP_FIX:
-        visualizedArray.fix(indexArray[0]);
-        break;
-      default:
-        console.error('invalid step');
-    }
-    return;
   }
 }());
