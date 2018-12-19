@@ -1,3 +1,5 @@
+const { CanvasSpace, Form, Line, Vector, Const } = require('./pt.min.js');
+
 var space;
 
 function floatySpace() {
@@ -72,8 +74,8 @@ function floatySpace() {
 
 floatySpace();
 
-$(window).resize(function(){
+window.onresize = function() {
   space.removeAll();
-  $('canvas').remove();
+  document.getElementById('pt').innerHTML = '';
   floatySpace();
-});
+}

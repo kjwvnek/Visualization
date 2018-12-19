@@ -1,3 +1,9 @@
+import '../scss/index.scss'
+import './canvas_space'
+
+// import Libraries
+const Handlebars = require('./handlebars-v4.0.12');
+
 const SECTIONS = [
   {
     title: 'Data',
