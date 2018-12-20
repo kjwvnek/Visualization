@@ -3,23 +3,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
   <title>Word Frequency Cloud</title>
-  <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
-  <link rel="stylesheet" href="./index.css">
+  <link rel="shortcut icon" type="image/x-icon" href="/Visualization/docs/assets/favicon.ico"/>
 </head>
 <body>
   <div class="wrap">
-    <h1 class="root-title">Word Frequency Cloud</h1>
+    <h1 class="root-title"><span class="text">Word Frequency Cloud</span></h1>
     <div class="container">
-      <div id="section-field" class="section-field">
-        <textarea id="text-field" class="text-field" placeholder="Please enter a paragraph that you want analysis"></textarea>
+      <div class="buttons">
+        <button type="button" id="btn-popup" class="btn-theme">Input Text</button>
       </div>
-      <div class="section-result">
-        <div id="result" class="result"></div>
+      <div id="result" class="result"></div>
+    </div>
+    <div id="popup-field" class="popup-field" style="z-index:-1">
+      <textarea id="text-field" class="text-field" placeholder="Please enter a paragraph that you want analysis"></textarea>
+      <div class="buttons">
+        <button type="button" id="btn-render" class="btn-theme">render</button>
       </div>
     </div>
   </div>
-  <script src="https://d3js.org/d3.v3.min.js"></script>
-  <script src="./d3.layout.cloud.js"></script>
-  <script src="./index.js"></script>
 </body>
 </html>

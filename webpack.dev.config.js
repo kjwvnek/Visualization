@@ -2,15 +2,15 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DefinePlugin = require('webpack').DefinePlugin;
 
-let workspace = process.env.workspace;
+let project = process.env.project;
 let entry, template;
 
-if (!workspace) {
-  entry = path.resolve(__dirname, 'assets/js/index.js');
-  template = path.resolve(__dirname, './assets/index.html');
+if (!project) {
+  entry = path.resolve(__dirname, 'index.js');
+  template = path.resolve(__dirname, 'index.html');
 } else {
-  entry = path.resolve(__dirname, `packages/${workspace}/index.js`);
-  template = path.resolve(__dirname, `packages/${workspace}/index.html`);
+  entry = path.resolve(__dirname, `packages/${project}/index.js`);
+  template = path.resolve(__dirname, `packages/${project}/index.html`);
 }
 
 const webpackConfig = {
@@ -23,7 +23,7 @@ const webpackConfig = {
     proxy: {
       '/Visualization': {
         target: 'http://localhost:9000',
-        pathRewrite: {'^/Visualization': ''}
+        pathRewrite: {'^/Visualization': '/'}
       }
     },
     contentBase: __dirname,
@@ -43,7 +43,7 @@ const webpackConfig = {
   },
   resolve: {
     alias: {
-      '/Visualization': __dirname
+      '@': __dirname
     }
   },
   plugins: [

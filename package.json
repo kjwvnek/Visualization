@@ -4,8 +4,9 @@
   "description": "from 2018.09",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --config './webpack.dev.config.js' --mode development $workspace",
-    "dev:wfc": "webpack-dev-server --config './webpack.dev.config.js' --mode development workspace=word_frequency_cloud"
+    "dev": "webpack-dev-server --config './webpack.dev.config.js' --mode development $project",
+    "dev:wfc": "project=word_frequency_cloud webpack-dev-server --config './webpack.dev.config.js' --mode development",
+    "dev:bubble_sort": "project=bubble_sort webpack-dev-server --config './webpack.dev.config.js' --mode development"
   },
   "repository": {
     "type": "git",

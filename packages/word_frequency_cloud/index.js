@@ -1,3 +1,7 @@
+import '@/common/js/d3.v3.min.js'
+import cloud from './layout.cloud'
+import './index.scss'
+
 const customFilter = [
   'a', 'b', 'c', 'd', 'e', 'f', 'g', 
   'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 
@@ -120,8 +124,11 @@ const LEVEL = {
 
   class View {
     constructor() {
-      this.textFieldElement = document.getElementById('text-field');
+      this.popupElement = document.getElementById('popup-field');
       this.resultElement = document.getElementById('result');
+      this.btnPopupElement = document.getElementById('btn-popup');
+      this.btnRenderElement = document.getElementById('btn-render');
+      this.textFieldElement = document.getElementById('text-field');
       this.svgElement = null;
     }
 
@@ -135,7 +142,7 @@ const LEVEL = {
         .append('svg').attr('width', width).attr('height', height)
         .append('g').attr('transform', `translate(${width / 2}, ${height / 2})`);
 
-      const layout = d3.layout.cloud()
+      const layout = cloud()
         .size([width, height])
         .words(wordsArray)
         .padding(7)
@@ -177,8 +184,29 @@ const LEVEL = {
     bindEvents() {
       const self = this;
   
-      this.view.textFieldElement.addEventListener('change', function(e) {
-        const text = e.target.value;
+      this.view.btnPopupElement.addEventListener('click', function(e) {
+        let buttonElement = e.currentTarget;
+        
+        if (buttonElement.interval) {
+          window.clearInterval(buttonElement.interval);
+          buttonElement.interval = null;
+        }
+
+        if (self.view.popupElement.classList.contains('is-shown')) {
+          self.view.popupElement.classList.remove('is-shown');
+          buttonElement.interval = setTimeout(() => {
+            self.view.popupElement.style.zIndex = -1;
+          }, 500);
+        } else {
+          self.view.popupElement.style.zIndex = 100;
+          self.view.popupElement.classList.add('is-shown');
+        }
+      });
+
+      this.view.btnRenderElement.addEventListener('click', function() {
+        self.view.btnPopupElement.click();
+
+        const text = self.view.textFieldElement.value;
         const words = new WordsModel(text, customFilter);
 
         self.view.renderWordsCloud(words.sortedArray);

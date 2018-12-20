@@ -1,0 +1,305 @@
+@import "./common/scss/_color.scss";
+@import "./common/scss/_font.scss";
+@import "./common/scss/_reset.scss";
+
+/* Animation */
+@keyframes flip {
+  0% {
+    transform: perspective(400px) rotateY(90deg);
+    opacity: 0;
+  }
+  40% {
+    transform: perspective(400px) rotateY(-20deg);
+  }
+  60% {
+    transform: perspective(400px) rotateY(10deg);
+    opacity: 1;
+  }
+  80% {
+    transform: perspective(400px) rotateY(5deg);
+  }
+  100% {
+    transform: perspective(400px);
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes moveToLeftAndFadeIn {
+  0% {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes moveToRightAndFadeIn {
+  0% {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes moveToRightAndFadeInLong {
+  0% {
+    transform: translateX(-60px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+/* Style */
+body {
+  overflow: hidden;
+  height: 100vh;
+}
+.wrap {
+  transform: translate3d(0, 0, 0);
+  transition: transform .4s;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  color: #fff;
+  .canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url(/Visualization/docs/assets/img/space.png) no-repeat 50% 50%/cover;
+  }
+  .h1 {
+    position: relative;
+    z-index: 1;
+    font-size: 50px;
+    letter-spacing: 1px;
+    text-shadow: 2px -2px 1px #bbb;
+  }
+  a {
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    margin-top: 16px;
+    padding: 5px 12px 5px 12px;
+    border-radius: 2px;
+    border: 1px solid;
+    font-size: 24px;
+    line-height: 24px;
+    color: #fff;
+    &:after {
+      display: inline-block;
+      vertical-align: top;
+      width: 18px;
+      height: 24px;
+      margin-left: 8px;
+      background: url(/Visualization/docs/assets/img/icon-arrow-right-white.svg) no-repeat 50% 50%/100% 100%;
+      transform: rotate(0);
+      transition: 0.5s transform;
+      content: '';
+    }
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+      color: #222;
+    }
+    &:hover:after {
+      transform: rotate(90deg);
+    }
+  }
+}
+.container {
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+  height: 100vh;
+  padding: 50px;
+  .h2 {
+    position: relative;
+    margin-bottom: 120px;
+    text-align: center;
+    &:after {
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      width: 320px;
+      height: 3px;
+      margin-left: -160px;
+      background-color: #000;
+      content: '';
+    }
+    .text {
+      display: inline-block;
+      font-size: 40px;
+      vertical-align: top;
+    }
+  }
+}
+.content {
+  .section {
+    width: 540px;
+    margin: 50px auto 0;
+    &:after {
+      display: block;
+      clear: both;
+      content: '';
+    }
+  }
+  .h3 {
+    float: left;
+    width: 140px;
+    margin-right: 14px;
+    text-align: center;
+    .hexagon {
+      display: block;
+      position: relative;
+      width: 58px;
+      height: 100px;
+      margin: 0 auto;
+      background-color: $color-theme;
+      &:before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: inherit;
+        transform: rotateZ(60deg);
+        content: '';
+      }
+      &:after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: inherit;
+        transform: rotateZ(-60deg);
+        content: '';
+      }
+    }
+    .badge {
+      display: block;
+      position: relative;
+      .icon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+      }
+    }
+    .title {
+      display: block;
+      margin-top: 16px;
+      font-size: 28px;
+      color: #555;
+    }
+  }
+  .list {
+    overflow: hidden;
+    .link {
+      display: block;
+      height: 20px;
+      padding: 6px 0;
+      font-size: 20px;
+      line-height: 20px;
+      color: #555;
+      &::before {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin: 5px 9px 0 0;
+        background-color: #555;
+        vertical-align: top;
+        transition: border-radius .5s, background-color .5s;
+        content: '';
+      }
+      &:hover::before {
+        border-radius: 50%;
+        background-color: $color-theme;
+      }
+      &.disabled {
+        color: #999;
+      }
+      &.disabled::before {
+        background-color: #999;
+      }
+      &.disabled:hover::before {
+        background-color: #f44336;
+      }
+    }
+  }
+  .section:nth-child(1) {
+    .h3 .badge {
+      animation-delay: .4s;
+      .icon {
+        width: 50px;
+        height: 50px;
+        background: url(/Visualization/docs/assets/img/icon-disk-white.svg) no-repeat 50% 50%/100% 100%;
+      }
+    }
+    .h3 .title, .list {
+      animation-delay: 1s;
+    }
+  }
+  .section:nth-child(2) {
+    .h3 .badge {
+      animation-delay: .6s;
+      .icon {
+        width: 50px;
+        height: 50px;
+        background: url(/Visualization/docs/assets/img/icon-head-white.svg) no-repeat 50% 50%/100% 100%;
+      }
+    }
+    .h3 .title, .list {
+      animation-delay: 1.2s;
+    }
+  }
+}
+.wrap.is-container-view {
+  transform: translate3d(0, -100vh, 0);
+  .container .h2 .text {
+    animation-name: moveToRightAndFadeIn;
+    animation-duration: .5s;
+    animation-delay: .4s;
+    animation-timing-function: ease;
+    animation-fill-mode: both;
+  }
+  .content .h3 .badge {
+    animation-name: flip;
+    animation-duration: .75s;
+    animation-timing-function: ease;
+    animation-fill-mode: both;
+  }
+  .content .h3 .title {
+    animation-name: fadeIn;
+    animation-duration: .5s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: both;
+  }
+  .content .list {
+    animation-name: moveToLeftAndFadeIn;
+    animation-duration: .5s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+  }
+}
+ 
