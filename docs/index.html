@@ -1,0 +1,39 @@
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
+  <title>Index Page</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/Visualization/docs/assets/favicon.ico"/>
+</head>
+<body>
+<!-- root element -->
+<div id="wrap" class="wrap">
+  <header id="header" class="header">
+    <div id="pt" class="canvas-container"></div>
+    <h1 class="h1">Visualization</h1>
+    <a href="#container" id="btn-start" class="btn-start">start</a>
+  </header>
+  <div class="container">
+    <h2 class="h2"><span class="text">Visualization Category</span></h2>
+    <div id="content" class="content"></div>
+  </div>
+</div>
+<!-- section template -->
+<script id="template-section" type="text/x-handlebars-template">
+  <section class="section">
+    <h3 class="h3">
+      <span class="badge">
+        <span class="hexagon"></span>
+        <span class="icon {{icon}}"></span>
+      </span>
+      <span class="title">{{title}}</span>
+    </h3>
+    <ul class="list">
+      {{#each list}}
+        <li><a href="{{url}}" class="link {{className}}">{{name}}</a></li>
+      {{/each}}
+    </ul>
+  </section>
+</script>
+<script src="./js/index.bundle.js"></script></body>
+</html>

@@ -1,0 +1,25 @@
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
+  <title>Word Frequency Cloud</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/Visualization/docs/assets/favicon.ico"/>
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="root-title"><span class="text">Word Frequency Cloud</span></h1>
+    <div class="container">
+      <div class="buttons">
+        <button type="button" id="btn-popup" class="btn-theme">Input Text</button>
+      </div>
+      <div id="result" class="result"></div>
+    </div>
+    <div id="popup-field" class="popup-field" style="z-index:-1">
+      <textarea id="text-field" class="text-field" placeholder="Please enter a paragraph that you want analysis"></textarea>
+      <div class="buttons">
+        <button type="button" id="btn-render" class="btn-theme">render</button>
+      </div>
+    </div>
+  </div>
+<script src="../js/word_frequency_cloud.bundle.js"></script></body>
+</html>

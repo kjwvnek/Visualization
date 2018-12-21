@@ -9,16 +9,16 @@ const SECTIONS = [
     title: 'Data',
     icon: 'data',
     list: [
-      { name: 'word frequency cloud', url: './word_frequency_cloud/index.html' },
-      { name: 'travel risk map', url: './travel_risk_map/index.html', disabled: true }
+      { name: 'word frequency cloud', url: 'view/word_frequency_cloud.html' },
+      { name: 'travel risk map', url: 'view/travel_risk_map.html', disabled: true }
     ]
   },
   {
     title: 'Algorithm',
     icon: 'algorithm',
     list: [
-      { name: 'bubble sort', url: './bubble_sort/index.html' },
-      { name: 'insertion sort', url: './insert_sort/index.html', disabled: true }
+      { name: 'bubble sort', url: 'view/bubble_sort.html' },
+      { name: 'insertion sort', url: 'view/insert_sort.html', disabled: true }
     ]
   }
 ];

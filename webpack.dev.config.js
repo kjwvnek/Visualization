@@ -14,6 +14,7 @@ if (!project) {
 }
 
 const webpackConfig = {
+  mode: 'development',
   entry,
   output: {
     path: path.resolve(__dirname, 'docs'),
