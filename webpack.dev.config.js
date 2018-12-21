@@ -24,7 +24,7 @@ const webpackConfig = {
     proxy: {
       '/Visualization': {
         target: 'http://localhost:9000',
-        pathRewrite: {'^/Visualization': '/'}
+        pathRewrite: {'^/Visualization': '/docs'}
       }
     },
     contentBase: __dirname,
