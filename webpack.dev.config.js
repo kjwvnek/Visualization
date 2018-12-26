@@ -33,7 +33,13 @@ const webpackConfig = {
   module: {
     rules: [
       {
-        test: /.scss$/,
+        test: /\.exec\.js$/,
+        use: [
+          'script-loader'
+        ]
+      },
+      {
+        test: /\.scss$/,
         use: [
           'style-loader',
           'css-loader',

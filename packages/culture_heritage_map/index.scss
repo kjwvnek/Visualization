@@ -1,0 +1,32 @@
+@import "../../common/scss/_reset.scss";
+
+.wrap {
+  width: 100vw;
+  height: 100vh;
+  .map-container {
+    width: 100%;
+    height: 100%;
+  }
+}
+#map-holder {
+  width: 100%;
+  height: 100%;
+}
+._map-wrap {
+  fill: #e6f0fa;
+}
+._map-country {
+  fill: #fff;
+  stroke: #777;
+  stroke-width: 2;
+  &:hover {
+    fill: #f4f4f4;
+  }
+}
+._map-country-on {
+  fill: #159190;
+}
+._map-graticule {
+  stroke: #ddd;
+  stroke-width: .5;
+}
