@@ -21,6 +21,7 @@ const webpackConfig = {
     filename: 'index.bundle.js'
   },
   devServer: {
+    host: '0.0.0.0',
     proxy: {
       '/Visualization': {
         target: 'http://localhost:9000',

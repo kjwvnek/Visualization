@@ -1,29 +1,34 @@
-import WorldMap from './src/world_map'
-import worldGeometryAfricaData from './data/world_geometry_africa.json'
-import worldGeometryAsiaData from './data/world_geometry_asia.json'
-import worldGeometryEuropeData from './data/world_geometry_europe.json'
-import worldGeometryNorthAmericaData from './data/world_geometry_north_america.json'
-import worldGeometrySouthAmericaData from './data/world_geometry_south_america.json'
-import worldGeometryOceanicaData from './data/world_geometry_oceania.json'
+import DimensionalWorldMap from './src/worldMap'
+import worldGeometryAfricaData from './data/worldGeometryAfrica.json'
+import worldGeometryAsiaData from './data/worldGeometryAsia.json'
+import worldGeometryEuropeData from './data/worldGeometryEurope.json'
+import worldGeometryNorthAmericaData from './data/worldGeometryNorthAmerica.json'
+import worldGeometryOceaniaData from './data/worldGeometryOceania.json'
+import worldGeometrySouthAmerica from './data/worldGeometrySouthAmerica.json'
 import './index.scss'
 
-
-const worldGeometryData = [
+const geometryData = [
   ...worldGeometryAfricaData.features,
   ...worldGeometryAsiaData.features,
   ...worldGeometryEuropeData.features,
   ...worldGeometryNorthAmericaData.features,
-  ...worldGeometrySouthAmericaData.features,
-  ...worldGeometryOceanicaData.features
+  ...worldGeometryOceaniaData.features,
+  ...worldGeometrySouthAmerica.features
 ];
 
-console.log('=== Geometry Data ===')
-console.log(worldGeometryData);
+const worldMap = new DimensionalWorldMap({
+  holderId: 'map-holder-svg',
+  geometryData,
+  width: 960,
+  height: 500,
+  rotateX: 0,
+  rotateY: -25,
+  rotateZ: 0,
+  classNames: {
+    segment: '__map-segment',
+    graticule: '__map-graticule'
+  }
+});
 
-const worldMap = new WorldMap();
-
-worldMap.render(
-  document.getElementById('map-holder'), 
-  'map-holder',
-  worldGeometryData
-);
+worldMap.render3D();
+//worldMap.rotate3D([0, -25, 0], -1, [.1, 0, 0]);
