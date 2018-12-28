@@ -1,4 +1,4 @@
-import DimensionalWorldMap from './src/worldMap'
+import DimensionalWorldMap from './src/DimensionalworldMap'
 import worldGeometryAfricaData from './data/worldGeometryAfrica.json'
 import worldGeometryAsiaData from './data/worldGeometryAsia.json'
 import worldGeometryEuropeData from './data/worldGeometryEurope.json'
@@ -31,4 +31,9 @@ const worldMap = new DimensionalWorldMap({
 });
 
 worldMap.render3D();
-//worldMap.rotate3D([0, -25, 0], -1, [.1, 0, 0]);
+
+// 기본 회전
+worldMap.rotate3D([0, -25, 0], -1, [.1, 0, 0]);
+
+// 지도가 펼쳐짐
+// worldMap.transform3Dto2D();
