@@ -1,39 +1,45 @@
-import DimensionalWorldMap from './src/DimensionalworldMap'
-import worldGeometryAfricaData from './data/worldGeometryAfrica.json'
-import worldGeometryAsiaData from './data/worldGeometryAsia.json'
-import worldGeometryEuropeData from './data/worldGeometryEurope.json'
-import worldGeometryNorthAmericaData from './data/worldGeometryNorthAmerica.json'
-import worldGeometryOceaniaData from './data/worldGeometryOceania.json'
-import worldGeometrySouthAmerica from './data/worldGeometrySouthAmerica.json'
+import geometryData from './data/geometry'
+import heritageData from './data/heritage'
+import HomeView from './modules/HomeView'
+import WorldMapView from './modules/WorldMapView'
 import './index.scss'
 
-const geometryData = [
-  ...worldGeometryAfricaData.features,
-  ...worldGeometryAsiaData.features,
-  ...worldGeometryEuropeData.features,
-  ...worldGeometryNorthAmericaData.features,
-  ...worldGeometryOceaniaData.features,
-  ...worldGeometrySouthAmerica.features
-];
+var rootEl = document.getElementById('root');
 
-const worldMap = new DimensionalWorldMap({
-  holderId: 'map-holder-svg',
-  geometryData,
-  width: 960,
-  height: 500,
-  rotateX: 0,
-  rotateY: -25,
-  rotateZ: 0,
+var homeView = new HomeView();
+var worldMapView = new WorldMapView({
+  geometry: geometryData,
+  width: window.innerWidth,
+  height: window.innerHeight,
+  rotation: {
+    x: 0,
+    y: -25,
+    z: 0
+  },
   classNames: {
+    background: '__map-background',
     segment: '__map-segment',
-    graticule: '__map-graticule'
+    grid: '__map-grid',
+    marker: '__map-marker',
+    segment_group: '__map-segment-group',
+    grid_group: '__map-grid-group',
+    marker_group: '__map-marker-group'
   }
 });
 
-worldMap.render3D();
+// render
+homeView.render(rootEl);
+worldMapView.renderSVG(homeView.mapHolderEl, { marker: heritageData }, '3D');
+var rotationTimer = worldMapView.animate([0, -25, 0], [20, -25, 0], worldMapView.rotate, 3200, true);
 
-// 기본 회전
-worldMap.rotate3D([0, -25, 0], -1, [.1, 0, 0]);
+// bind events
+homeView.btnDetailMapEl.addEventListener('click', function() {
+  homeView.btnDetailMapEl.disabled = true;
+  rotationTimer.stop();
 
-// 지도가 펼쳐짐
-// worldMap.transform3Dto2D();
+  worldMapView
+    .transformToPlaneMap()
+    .then(function() {
+      
+    })
+});

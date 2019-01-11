@@ -34,6 +34,12 @@ const webpackConfig = {
   module: {
     rules: [
       {
+        test: /\.ejs$/,
+        use: [
+          'ejs-loader'
+        ]
+      },
+      {
         test: /\.exec\.js$/,
         use: [
           'script-loader'
